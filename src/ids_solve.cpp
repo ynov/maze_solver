@@ -2,6 +2,7 @@
 #include "map.h"
 
 #define DEPTH_INCREMENT 2
+#define MAX_DEPTH_ALLOWED 999
 
 // [ids] ////
 BEGIN_NAMESPACE(ids)
@@ -75,12 +76,12 @@ path_t ids_solve(const map_t &map)
 
   map_printer::mprintf_trace("IDS Trace:\n");
 
-  int max_depth = DEPTH_INCREMENT;
+  int max_depth = 0;
   do {
     ids::reset_visited();
     ids::search(map.start, max_depth);
     max_depth += DEPTH_INCREMENT;
-  } while (!ids::finish_found);
+  } while (!ids::finish_found && max_depth < MAX_DEPTH_ALLOWED);
 
   map_printer::mprintf_trace("\n");
 
